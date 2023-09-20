@@ -1,3 +1,33 @@
+const localStorageKey = 'to-do-list-gn'
+
+function validateIfExistsNewTask() {
+    let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
+    let inputValue = document.getElementById('input-new-task').value
+    let exists = values.find(x => x.name == inputValue)
+    return !exists ? false : true
+}
+
+function newTask() {
+    let input = document.getElementById('input-new-task')
+    input.style.border = ''
+
+    if (!input.value) {
+        input.style.border = '1px solid red'
+        alert('Digite uma tarefa para adicionar em sua lista')
+    }
+
+    else if (validateIfExistsNewTask()) {
+        alert('Já existe uma tarefa com esse nome')
+    }
+    else {
+        let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
+        values.push({
+            name: input.value,
+            deleted : false
+        })
+        localStorage.setItem(localStorageKey, JSON.stringify(values))
+        showValues()
+    }
     input.value = ''
 
 }
@@ -57,4 +87,5 @@ function removeItem(data) {
 }
 
 showValues()
+
 
